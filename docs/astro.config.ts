@@ -3,6 +3,11 @@ import { defineConfig } from 'astro/config'
 import remarkCustomHeadingId from 'remark-custom-heading-id'
 import starlightHeadingBadges from 'starlight-heading-badges'
 
+const site =
+  process.env['VERCEL_ENV'] !== 'production' && process.env['VERCEL_URL']
+    ? `https://${process.env['VERCEL_URL']}`
+    : 'https://starlight-heading-badges.vercel.app/'
+
 export default defineConfig({
   integrations: [
     starlight({
@@ -11,6 +16,19 @@ export default defineConfig({
       editLink: {
         baseUrl: 'https://github.com/HiDeoo/starlight-heading-badges/edit/main/docs/',
       },
+      head: [
+        {
+          tag: 'meta',
+          attrs: { property: 'og:image', content: new URL('og.jpg', site).href },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image:alt',
+            content: 'Starlight plugin to add badges to your Markdown and MDX headings.',
+          },
+        },
+      ],
       plugins: [starlightHeadingBadges()],
       sidebar: [
         {
@@ -36,5 +54,5 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkCustomHeadingId],
   },
-  site: 'https://starlight-heading-badges.vercel.app',
+  site,
 })
