@@ -13,7 +13,7 @@ If you don't have one yet, you can follow the ["Getting Started"](https://starli
 
 ## Installation
 
-import { Steps } from '@astrojs/starlight/components'
+import { Steps, Aside } from '@astrojs/starlight/components'
 import { PackageManagers } from '@hideoo/starlight-plugins-docs-components'
 
 <Steps>
@@ -54,6 +54,36 @@ import { PackageManagers } from '@hideoo/starlight-plugins-docs-components'
    ```
 
 4. [Start the development server](https://starlight.astro.build/getting-started/#start-the-development-server) to see the plugin in action.
+
+<Aside type="caution">
+
+This plugin adds remark/rehype plugins to your Astro configuration, which are required for this plugin to function.
+Sätteri (Astro's default Markdown processor since Astro 7) cannot run remark/rehype plugins.
+
+If you are using Astro 7 or above, you'll need to set unified as your Markdown processor, which can be done with the following steps:
+
+<Steps>
+
+1. Install `@astrojs/markdown-remark`:
+
+   <PackageManagers pkg="@astrojs/markdown-remark" />
+
+2. Set unified as the Markdown processor for Astro:
+
+   ```diff lang="js"
+   // astro.config.mjs
+   import { unified } from '@astrojs/markdown-remark';
+
+   export default defineConfig({
+   +   markdown: {
+   +      processor: unified()
+   +   },
+      // other options...
+   })
+
+</Steps>
+
+</Aside>
 
 </Steps>
 
